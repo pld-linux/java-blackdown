@@ -165,13 +165,13 @@ Wtyczka z obs³ug± Javy dla Mozilli.
 %prep
 %setup -qcT -n j2sdk%{mainversion}
 %ifarch %{ix86}
-tail +522 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
+tail -n +522 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch ppc
-tail +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
+tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch sparc sparc64
-tail +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
+tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 
 %install
