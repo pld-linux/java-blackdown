@@ -386,6 +386,8 @@ fi
 %endif
 %{jredir}/lib/images
 %{jredir}/lib/security
+%exclude %{jredir}/lib/security/cacerts
+%verify(not md5 size mtime) %config(noreplace) %{jredir}/lib/security/cacerts
 %ifarch ppc
 %{jredir}/lib/*.so
 %endif
