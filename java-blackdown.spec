@@ -126,14 +126,14 @@ Wtyczka z obs³ug± Javy dla Netscape 4.x.
 %endif
 
 %package tools
-Summary:        Shared java tools
-Summary(pl):    Wspó³dzielone narzêdzia javy
-Group:          Development/Languages/Java
-Provides:       jar
-Provides:       java-shared
-Obsoletes:      java-shared
-Obsoletes:      jar
-Obsoletes:      fastjar
+Summary:	Shared java tools
+Summary(pl):	Wspó³dzielone narzêdzia javy
+Group:		Development/Languages/Java
+Provides:	jar
+Provides:	java-shared
+Obsoletes:	java-shared
+Obsoletes:	jar
+Obsoletes:	fastjar
 
 %description tools
 This package contains tools that are common for every Java(tm) implementation,
