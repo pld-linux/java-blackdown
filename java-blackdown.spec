@@ -4,11 +4,11 @@ Name:		java-blackdown
 %ifarch %{ix86} sparc sparc64
 %define	mainversion	1.4.1
 Version:	1.4.1_01
-Release:	2
+Release:	3
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
-Release:	1
+Release:	2
 %endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
@@ -44,6 +44,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		mozilladir	/usr/X11R6/lib/mozilla
 %else
 %define		mozilladir	/usr/lib/mozilla
+%define		firefoxdir	/usr/lib/mozilla-firefox
 %endif
 
 # prevent wrong requires when building with another JRE
@@ -143,7 +144,6 @@ such as rmic or jar.
 Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji Javy(tm), takie
 jak rmic czy jar.
 
-
 %package -n mozilla-plugin-%{name}
 Summary:	Mozilla Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli
@@ -161,6 +161,20 @@ Java plugin for Mozilla.
 
 %description -n mozilla-plugin-%{name} -l pl
 Wtyczka z obs³ug± Javy dla Mozilli.
+
+%package -n mozilla-firefox-plugin-%{name}
+Summary:	Mozilla Firefox Java plugin
+Summary(pl):	Wtyczka Javy do Mozilli Firefox
+Group:		Development/Languages/Java
+Requires:	%{name}-jre = %{version}
+PreReq:		mozilla-firefox
+Obsoletes:	mozilla-firefox-plugin-java-sun
+
+%description -n mozilla-firefox-plugin-%{name}
+Java plugin for Mozilla Firefox.
+
+%description -n mozilla-firefox-plugin-%{name} -l pl
+Wtyczka z obs³ug± Javy dla Mozilli Firefox.
 
 %prep
 %setup -qcT -n j2sdk%{mainversion}
@@ -239,6 +253,8 @@ install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
 	$RPM_BUILD_ROOT%{jredir}/plugin/%{archd}/mozilla
 ln -sf %{jredir}/plugin/%{archd}/mozilla/javaplugin_oji.so \
 	$RPM_BUILD_ROOT%{mozilladir}/plugins
+ln -sf %{jredir}/plugin/%{archd}/mozilla/javaplugin_oji.so \
+	$RPM_BUILD_ROOT%{firefoxdir}/plugins
 
 # these binaries are in %{jredir}/bin - not needed in %{javadir}/bin?
 rm -f $RPM_BUILD_ROOT%{javadir}/bin/{JavaPluginControlPanel,keytool,kinit,klist,ktab,orbd,policytool,rmid,rmiregistry,servertool,tnameserv}
