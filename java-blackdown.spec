@@ -181,7 +181,9 @@ install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
 
 %ifarch ppc
 mv -f jre/bin/ppc/native_threads/* jre/bin
+mv -f jre/lib/ppc/*.* jre/lib
 mv -f jre/lib/ppc/native_threads/* jre/lib
+mv -f jre/lib/ppc/classic/* jre/lib
 mv -f bin/ppc/native_threads/* bin
 mv -f lib/ppc/* lib
 rm -rf jre/bin/ppc/ jre/lib/ppc/ bin/ppc/ lib/ppc/
@@ -228,6 +230,10 @@ for i in javaplugin rt sunrsasign ; do
 done
 %endif
 
+%ifarch ppc
+ln -s %{jredir}/lib/libhpi.so $RPM_BUILD_ROOT%{_libdir}
+ln -s %{jredir}/lib/libjvm.so $RPM_BUILD_ROOT%{_libdir}
+%endif
 
 install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
 install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
@@ -342,6 +348,9 @@ fi
 %attr(755,root,root) %{_bindir}/rmid
 %attr(755,root,root) %{_bindir}/rmiregistry
 %attr(755,root,root) %{_bindir}/tnameserv
+%ifarch ppc
+%{_libdir}/*.so
+%endif
 %dir %{javadir}
 %dir %{javadir}/bin
 %attr(755,root,root) %{javadir}/bin/java
