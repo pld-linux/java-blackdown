@@ -172,6 +172,8 @@ Obsoletes:	blackdown-java-sdk-mozilla-plugin
 Obsoletes:	java-sun-moz-plugin
 Obsoletes:	jre-mozilla-plugin
 Obsoletes:	mozilla-plugin-blackdown-java-sdk
+Obsoletes:	mozilla-plugin-gcc2-java-sun
+Obsoletes:	mozilla-plugin-gcc3-java-sun
 Obsoletes:	mozilla-plugin-java-sun
 
 %description -n mozilla-plugin-%{name}
@@ -188,6 +190,7 @@ Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-firefox
 Obsoletes:	mozilla-firefox-plugin-gcc2-java-sun
 Obsoletes:	mozilla-firefox-plugin-gcc3-java-sun
+Obsoletes:	mozilla-firefox-plugin-java-sun
 
 %description -n mozilla-firefox-plugin-%{name}
 Java plugin for Mozilla Firefox.
