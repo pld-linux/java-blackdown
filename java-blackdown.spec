@@ -4,11 +4,11 @@ Name:		java-blackdown
 %ifarch %{ix86} amd64 sparc sparc64
 %define	mainversion	1.4.2
 Version:	1.4.2_rc1
-Release:	3
+Release:	4
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
-Release:	2
+Release:	4
 %endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
@@ -34,6 +34,7 @@ Source10:	font.properties
 URL:		http://www.blackdown.org/
 Provides:	jdk = %{version}
 Requires:	%{name}-jre = %{version}-%{release}
+Requires:	java-shared
 Obsoletes:	blackdown-java-sdk
 Obsoletes:	ibm-java
 Obsoletes:	java-sun
@@ -79,9 +80,9 @@ Group:		Development/Languages/Java
 Requires:	XFree86-libs
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
+Requires:	java-jre-tools
 Requires(post):	fontpostinst >= 0.1-6
 Provides:	jre = %{version}
-#Provides:	jar
 Provides:	java
 Obsoletes:	jre
 Obsoletes:	java-sun-jre
@@ -142,6 +143,21 @@ such as rmic or jar.
 %description tools -l pl
 Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji Javy(tm), takie
 jak rmic czy jar.
+
+%package jre-tools
+Summary:	Shared Java tools
+Summary(pl):	Wspó³dzielone narzêdzia Javy
+Group:		Development/Languages/Java
+Requires:	%{name}-jre = %{version}-%{release}
+Provides:	java-jre-tools
+
+%description jre-tools
+This package contains tools that are common for every Java(TM)
+implementation, such as rmic or jar.
+
+%description jre-tools -l pl
+Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji
+Javy(TM), takie jak rmic czy jar.
 
 %package mozilla-plugin
 Summary:	Mozilla Java plugin file
@@ -516,14 +532,17 @@ fontpostinst TTF
 %attr(755,root,root) %{_bindir}/jar
 %attr(755,root,root) %{_bindir}/rmic
 %attr(755,root,root) %{_bindir}/rmiregistry
-%attr(755,root,root) %{jredir}/bin/rmiregistry
 %attr(755,root,root) %{javadir}/bin/rmic
 %{_mandir}/man1/jar.1*
-%lang(ja) %{_mandir}/ja/man1/jar.1*
-%{_mandir}/man1/rmiregistry.1*
 %{_mandir}/man1/rmic.1*
-%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
+%lang(ja) %{_mandir}/ja/man1/jar.1*
 %lang(ja) %{_mandir}/ja/man1/rmic.1*
+
+%files jre-tools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{jredir}/bin/rmiregistry
+%{_mandir}/man1/rmiregistry.1*
+%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
 
 %files mozilla-plugin
 %defattr(644,root,root,755)
