@@ -4,7 +4,7 @@ Name:		java-blackdown
 %ifarch %{ix86} sparc sparc64
 %define	mainversion	1.4.2
 Version:	1.4.2_rc1
-Release:	1
+Release:	1.1
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
@@ -198,6 +198,17 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
 	$RPM_BUILD_ROOT%{_mandir}/{,ja/}man1
 
+%ifarch %{ix86}
+#unpack jars in 1.4.2
+packed="lib/tools jre/lib/rt jre/lib/jsse jre/lib/charsets \
+        jre/lib/ext/localedata jre/lib/plugin"
+#jre/javaws/javaws ?
+for i in $packed ; do
+        lib/unpack $i.pack $i.jar
+        done
+
+%endif
+
 cp -rf bin demo include lib $RPM_BUILD_ROOT%{javadir}
 install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
@@ -317,8 +328,8 @@ fi
 %dir %{javadir}/lib
 %{javadir}/lib/*.jar
 %{javadir}/lib/*.idl
-%{javadir}/lib/*.pack
-%{javadir}/lib/unpack
+#%%{javadir}/lib/*.pack
+#%%{javadir}/lib/unpack
 %ifarch ppc
 %{javadir}/lib/%{archd}/*.so
 %endif
@@ -398,7 +409,7 @@ fi
 %endif
 %dir %{jredir}/lib
 %attr(755,root,root) %{jredir}/lib/%{archd}
-%{jredir}/lib/*.pack
+#%%{jredir}/lib/*.pack
 %ifarch ppc
 %{jredir}/lib/jvm.cfg
 %{jredir}/lib/tzmappings
