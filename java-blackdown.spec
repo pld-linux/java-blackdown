@@ -3,8 +3,8 @@ Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
 %ifarch %{ix86} amd64 sparc sparc64
 %define	mainversion	1.4.2
-Version:	1.4.2_rc1
-Release:	4
+Version:	1.4.2_01
+Release:	1
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
@@ -13,13 +13,13 @@ Release:	4
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
 %ifarch	%{ix86}
-Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.2/i386/rc1/j2sdk-1.4.2-rc1-linux-i586-gcc3.2.bin
-# NoSource0-md5:	52ff3a059845ee8487faeaa7b0c157c8
+Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/01/j2sdk-1.4.2-01-linux-i586.bin
+# NoSource0-md5:	dbb87efd16b8d25cdd3fe6a8782a8e75
 NoSource:	0
 %endif
 %ifarch	amd64
-Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.2/amd64/rc1/j2sdk-1.4.2-rc1-linux-amd64.bin
-# NoSource0-md5:	a6244fa37641d8478c38744c8677aef3
+Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/01/j2sdk-1.4.2-01-linux-amd64.bin
+# NoSource0-md5:	00cb18fe9ea91c536360c70a219b1867
 NoSource:	0
 %endif
 %ifarch ppc
@@ -33,6 +33,7 @@ NoSource:	2
 Source10:	font.properties
 URL:		http://www.blackdown.org/
 Provides:	jdk = %{version}
+Provides:	jsse
 Requires:	%{name}-jre = %{version}-%{release}
 Requires:	java-shared
 Obsoletes:	blackdown-java-sdk
@@ -40,7 +41,7 @@ Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
 Obsoletes:	kaffe
-ExclusiveArch:	%{ix86} ppc sparc sparc64
+ExclusiveArch:	%{ix86} amd64 ppc sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		javadir		%{_libdir}/java
@@ -57,6 +58,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %ifarch %{ix86}
 %define		archd	i386
+%endif
+%ifarch amd64
+%define         archd   amd64
 %endif
 %ifarch ppc
 %define		archd	ppc
@@ -210,8 +214,8 @@ Wtyczka z obs³ug± Javy dla Mozilli Firefox.
 
 %prep
 %setup -qcT -n j2sdk%{mainversion}
-%ifarch %{ix86}
-tail -n +482 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
+%ifarch %{ix86} amd64
+tail -n +564 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch ppc
 tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
@@ -220,7 +224,7 @@ tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 
-%ifarch %{ix86}
+%ifarch %{ix86} && amd64
 #unpack jars in 1.4.2
 packed="lib/tools jre/lib/rt jre/lib/jsse jre/lib/charsets \
 	jre/lib/ext/localedata jre/lib/plugin"
@@ -231,7 +235,7 @@ for i in $packed ; do
 %endif
 
 %ifnarch ppc
-mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
+#mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
 mv -f jre/lib/%{archd}/server/Xusage.txt jre/Xusage.server
 mv -f jre/lib/font.properties{.Redhat8.0,}
 %endif
@@ -273,6 +277,7 @@ for i in HtmlConverter appletviewer extcheck idlj jar jarsigner java-rmi.cgi \
 	javac javadoc javah javap jdb native2ascii rmic serialver ; do
 	ln -sf %{javadir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/$i
 done
+
 
 %ifarch ppc
 ln -sf %{javadir}/bin/j2sdk-config $RPM_BUILD_ROOT%{_bindir}/j2sdk-config
@@ -354,7 +359,7 @@ fontpostinst TTF
 %attr(755,root,root) %{javadir}/bin/idlj
 %attr(755,root,root) %{javadir}/bin/jar
 %attr(755,root,root) %{javadir}/bin/jarsigner
-%attr(755,root,root) %{javadir}/bin/java-rmi.cgi
+#%attr(755,root,root) %{javadir}/bin/java-rmi.cgi
 %attr(755,root,root) %{javadir}/bin/javac
 %attr(755,root,root) %{javadir}/bin/javadoc
 %attr(755,root,root) %{javadir}/bin/javah
@@ -409,7 +414,8 @@ fontpostinst TTF
 %defattr(644,root,root,755)
 %doc jre/ControlPanel.html
 %ifnarch ppc
-%doc jre/Welcome.html jre/Xusage*
+#%doc jre/Welcome.html 
+%doc jre/Xusage*
 %doc jre/{CHANGES,COPYRIGHT,LICENSE,README,*.txt}
 %endif
 %attr(755,root,root) %{_bindir}/ControlPanel
