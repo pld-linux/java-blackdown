@@ -66,7 +66,7 @@ Requires:	XFree86-libs
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
 Provides:	jre = %{version}
-Provides:	jar
+#Provides:	jar
 Provides:	java
 Obsoletes:	jre
 Obsoletes:	java-sun-jre
@@ -111,6 +111,25 @@ Java plugin for Netscape 4.x.
 %description -n netscape4-plugin-%{name} -l pl
 Wtyczka z obs³ug± Javy dla Netscape 4.x.
 %endif
+
+%package tools
+Summary:        Shared java tools
+Summary(pl):    Wspó³dzielone narzêdzia javy
+Group:          Development/Languages/Java
+Provides:       jar
+Provides:       java-shared
+Obsoletes:      java-shared
+Obsoletes:      jar
+Obsoletes:      fastjar
+
+%description tools
+This package contains tools that are common for every Java(tm) implementation,
+such as rmic or jar.
+
+%description tools -l pl
+Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji Javy(tm), takie
+jak rmic czy jar.
+
 
 %package -n mozilla-plugin-%{name}
 Summary:	Mozilla Java plugin
@@ -211,7 +230,7 @@ fi
 %attr(755,root,root) %{_bindir}/appletviewer
 %attr(755,root,root) %{_bindir}/extcheck
 %attr(755,root,root) %{_bindir}/idlj
-%attr(755,root,root) %{_bindir}/jar
+##%attr(755,root,root) %{_bindir}/jar
 %attr(755,root,root) %{_bindir}/jarsigner
 %attr(755,root,root) %{_bindir}/java-rmi.cgi
 %attr(755,root,root) %{_bindir}/javac
@@ -220,7 +239,7 @@ fi
 %attr(755,root,root) %{_bindir}/javap
 %attr(755,root,root) %{_bindir}/jdb
 %attr(755,root,root) %{_bindir}/native2ascii
-%attr(755,root,root) %{_bindir}/rmic
+##%attr(755,root,root) %{_bindir}/rmic
 %attr(755,root,root) %{_bindir}/serialver
 %attr(755,root,root) %{javadir}/bin/HtmlConverter
 %attr(755,root,root) %{javadir}/bin/appletviewer
@@ -245,7 +264,7 @@ fi
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
 %{_mandir}/man1/idlj.1*
-%{_mandir}/man1/jar.1*
+##%{_mandir}/man1/jar.1*
 %{_mandir}/man1/jarsigner.1*
 %{_mandir}/man1/javac.1*
 %{_mandir}/man1/javadoc.1*
@@ -253,12 +272,12 @@ fi
 %{_mandir}/man1/javap.1*
 %{_mandir}/man1/jdb.1*
 %{_mandir}/man1/native2ascii.1*
-%{_mandir}/man1/rmic.1*
+##%{_mandir}/man1/rmic.1*
 %{_mandir}/man1/serialver.1*
 %lang(ja) %{_mandir}/ja/man1/appletviewer.1*
 %lang(ja) %{_mandir}/ja/man1/extcheck.1*
 %lang(ja) %{_mandir}/ja/man1/idlj.1*
-%lang(ja) %{_mandir}/ja/man1/jar.1*
+##%lang(ja) %{_mandir}/ja/man1/jar.1*
 %lang(ja) %{_mandir}/ja/man1/jarsigner.1*
 %lang(ja) %{_mandir}/ja/man1/javac.1*
 %lang(ja) %{_mandir}/ja/man1/javadoc.1*
@@ -266,7 +285,7 @@ fi
 %lang(ja) %{_mandir}/ja/man1/javap.1*
 %lang(ja) %{_mandir}/ja/man1/jdb.1*
 %lang(ja) %{_mandir}/ja/man1/native2ascii.1*
-%lang(ja) %{_mandir}/ja/man1/rmic.1*
+##%lang(ja) %{_mandir}/ja/man1/rmic.1*
 %lang(ja) %{_mandir}/ja/man1/serialver.1*
 
 %files jre
@@ -301,7 +320,7 @@ fi
 %attr(755,root,root) %{jredir}/bin/orbd
 %attr(755,root,root) %{jredir}/bin/policytool
 %attr(755,root,root) %{jredir}/bin/rmid
-%attr(755,root,root) %{jredir}/bin/rmiregistry
+##%attr(755,root,root) %{jredir}/bin/rmiregistry
 %attr(755,root,root) %{jredir}/bin/servertool
 %attr(755,root,root) %{jredir}/bin/tnameserv
 %dir %{jredir}/lib
@@ -329,7 +348,7 @@ fi
 %{_mandir}/man1/orbd.1*
 %{_mandir}/man1/policytool.1*
 %{_mandir}/man1/rmid.1*
-%{_mandir}/man1/rmiregistry.1*
+##%{_mandir}/man1/rmiregistry.1*
 %{_mandir}/man1/servertool.1*
 %{_mandir}/man1/tnameserv.1*
 %lang(ja) %{_mandir}/ja/man1/java.1*
@@ -337,7 +356,7 @@ fi
 %lang(ja) %{_mandir}/ja/man1/orbd.1*
 %lang(ja) %{_mandir}/ja/man1/policytool.1*
 %lang(ja) %{_mandir}/ja/man1/rmid.1*
-%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
+##%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
 %lang(ja) %{_mandir}/ja/man1/servertool.1*
 %lang(ja) %{_mandir}/ja/man1/tnameserv.1*
 
@@ -364,6 +383,19 @@ fi
 %lang(zh_TW) %{jredir}/lib/locale/zh_TW
 %lang(zh_TW) %{jredir}/lib/locale/zh_TW.BIG5
 %endif
+
+%files tools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/jar
+%attr(755,root,root) %{jredir}/bin/rmiregistry
+%attr(755,root,root) %{javadir}/bin/rmic
+%{_mandir}/man1/jar.1*
+%lang(ja) %{_mandir}/ja/man1/jar.1*
+%{_mandir}/man1/rmiregistry.1*
+%{_mandir}/man1/rmic.1*
+%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
+%lang(ja) %{_mandir}/ja/man1/rmic.1*
+
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
