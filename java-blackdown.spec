@@ -2,9 +2,9 @@ Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
 %ifarch %{ix86} sparc sparc64
-%define	mainversion	1.4.1
-Version:	1.4.1_01
-Release:	3
+%define	mainversion	1.4.2
+Version:	1.4.2_rc1
+Release:	1
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
@@ -13,7 +13,12 @@ Release:	2
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
 %ifarch	%{ix86}
-Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/i386/01/j2sdk-1.4.1-01-linux-i586-gcc3.2.bin
+Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.2/i386/rc1/j2sdk-1.4.2-rc1-linux-i586-gcc3.2.bin
+# NoSource0-md5:	52ff3a059845ee8487faeaa7b0c157c8
+NoSource:	0
+%endif
+%ifarch	amd64
+Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.2/amd64/rc1/j2sdk-1.4.2-rc1-linux-amd64.bin
 # NoSource0-md5:	a0c7838233603fccb30641998195e8bc
 NoSource:	0
 %endif
@@ -179,7 +184,7 @@ Wtyczka z obs³ug± Javy dla Mozilli Firefox.
 %prep
 %setup -qcT -n j2sdk%{mainversion}
 %ifarch %{ix86}
-tail -n +522 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
+tail -n +482 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch ppc
 tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
@@ -223,7 +228,7 @@ for i in kinit klist ; do
         ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/j$i
 done
 
-for i in JavaPluginControlPanel java java_vm keytool ktab orbd policytool \
+for i in ControlPanel java java_vm keytool ktab orbd policytool \
 	rmid rmiregistry servertool tnameserv ; do
 	ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/$i
 done
@@ -242,20 +247,20 @@ ln -sf %{jredir}/bin/java $RPM_BUILD_ROOT%{javadir}/bin/java
 
 %ifarch %{ix86}
 install -d $RPM_BUILD_ROOT%{netscape4dir}/{plugins,java/classes}
-install jre/plugin/%{archd}/netscape4/javaplugin.so $RPM_BUILD_ROOT%{netscape4dir}/plugins
+install jre/plugin/%{archd}/netscape4/libjavaplugin.so $RPM_BUILD_ROOT%{netscape4dir}/plugins
 for i in javaplugin rt sunrsasign ; do
 	ln -sf %{jredir}/lib/$i.jar $RPM_BUILD_ROOT%{netscape4dir}/java/classes
 done
 %endif
 
 install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{firefoxdir}/plugins}
-install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
+install jre/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
 	$RPM_BUILD_ROOT%{mozilladir}/plugins
-install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
+install jre/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
 	$RPM_BUILD_ROOT%{firefoxdir}/plugins
 
 # these binaries are in %{jredir}/bin - not needed in %{javadir}/bin?
-rm -f $RPM_BUILD_ROOT%{javadir}/bin/{JavaPluginControlPanel,keytool,kinit,klist,ktab,orbd,policytool,rmid,rmiregistry,servertool,tnameserv}
+rm -f $RPM_BUILD_ROOT%{javadir}/bin/{ControlPanel,keytool,kinit,klist,ktab,orbd,policytool,rmid,rmiregistry,servertool,tnameserv}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -312,6 +317,8 @@ fi
 %dir %{javadir}/lib
 %{javadir}/lib/*.jar
 %{javadir}/lib/*.idl
+%{javadir}/lib/*.pack
+%{javadir}/lib/unpack
 %ifarch ppc
 %{javadir}/lib/%{archd}/*.so
 %endif
@@ -344,12 +351,12 @@ fi
 
 %files jre
 %defattr(644,root,root,755)
-%doc jre/JavaPluginControlPanel.html
+%doc jre/ControlPanel.html
 %ifnarch ppc
 %doc jre/Welcome.html jre/Xusage*
 %doc jre/{CHANGES,COPYRIGHT,LICENSE,README,*.txt}
 %endif
-%attr(755,root,root) %{_bindir}/JavaPluginControlPanel
+%attr(755,root,root) %{_bindir}/ControlPanel
 %attr(755,root,root) %{_bindir}/java
 %attr(755,root,root) %{_bindir}/java_vm
 %attr(755,root,root) %{_bindir}/keytool
@@ -368,7 +375,7 @@ fi
 %attr(755,root,root) %{javadir}/bin/java
 %dir %{jredir}
 %dir %{jredir}/bin
-%attr(755,root,root) %{jredir}/bin/JavaPluginControlPanel
+%attr(755,root,root) %{jredir}/bin/ControlPanel
 %attr(755,root,root) %{jredir}/bin/java
 %attr(755,root,root) %{jredir}/bin/java_vm
 %attr(755,root,root) %{jredir}/bin/keytool
@@ -391,6 +398,7 @@ fi
 %endif
 %dir %{jredir}/lib
 %attr(755,root,root) %{jredir}/lib/%{archd}
+%{jredir}/lib/*.pack
 %ifarch ppc
 %{jredir}/lib/jvm.cfg
 %{jredir}/lib/tzmappings
@@ -441,7 +449,7 @@ fi
 %ifarch %{ix86}
 %files -n netscape4-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{netscape4dir}/plugins/javaplugin.so
+%attr(755,root,root) %{netscape4dir}/plugins/libjavaplugin.so
 %{netscape4dir}/java/classes/*
 %dir %{jredir}/lib/locale
 %lang(de) %{jredir}/lib/locale/de
@@ -474,8 +482,8 @@ fi
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{mozilladir}/plugins/javaplugin_oji.so
+%attr(755,root,root) %{mozilladir}/plugins/libjavaplugin_oji.so
 
 %files -n mozilla-firefox-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{firefoxdir}/plugins/javaplugin_oji.so
+%attr(755,root,root) %{firefoxdir}/plugins/libjavaplugin_oji.so
