@@ -1,11 +1,17 @@
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
-%ifarch %{ix86} amd64 sparc sparc64
+%ifarch %{ix86} amd64
 %define	mainversion	1.4.2
 Version:	1.4.2_01
 Release:	1
-%else
+%endif
+%ifarch sparc sparcv9
+%define	mainversion	1.4.1
+Version:	1.4.1_01
+Release:	1
+%endif
+%ifarch ppc
 %define mainversion 1.3.1
 Version:	1.3.1
 Release:	4
@@ -26,7 +32,7 @@ NoSource:	0
 Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-%{version}/ppc/FCS-02b/j2sdk-%{version}-02b-FCS-linux-ppc.bin
 NoSource:	1
 %endif
-%ifarch sparc sparc64
+%ifarch sparc sparcv9
 Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc-gcc3.2.bin
 NoSource:	2
 %endif
@@ -41,7 +47,7 @@ Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
 Obsoletes:	kaffe
-ExclusiveArch:	%{ix86} amd64 ppc sparc sparc64
+ExclusiveArch:	%{ix86} amd64 ppc sparc sparcv9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		javadir		%{_libdir}/java
@@ -65,7 +71,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %ifarch ppc
 %define		archd	ppc
 %endif
-%ifarch sparc sparc64
+%ifarch sparc sparcv9
 %define		archd	sparc
 %endif
 
@@ -220,7 +226,7 @@ tail -n +564 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %ifarch ppc
 tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 %endif
-%ifarch sparc sparc64
+%ifarch sparc sparcv9
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 
