@@ -1,18 +1,25 @@
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
+%ifarch %{ix86} sparc sparc64
+%define	mainversion	1.4.1
 Version:	1.4.1_01
 Release:	1
+%else
+%define mainversion 1.3.1
+Version:	1.3.1
+Release:	0.1
+%endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
 %ifarch	%{ix86}
 Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/i386/01/j2sdk-1.4.1-01-linux-i586-gcc3.2.bin
 NoSource:	0
 %endif
-#%ifarch ppc
-#Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/ppc/01/j2sdk-1.4.1-01-linux-ppc-gcc3.2.bin
-#NoSource:	1
-#%endif
+%ifarch ppc
+Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-%{version}/ppc/FCS-02b/j2sdk-%{version}-02b-FCS-linux-ppc.bin
+NoSource:	1
+%endif
 %ifarch sparc sparc64
 Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc-gcc3.2.bin
 NoSource:	2
@@ -25,15 +32,18 @@ Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
 Obsoletes:	kaffe
-ExclusiveArch:	%{ix86} sparc sparc64
-#ExclusiveArch:	%{ix86} ppc sparc sparc64
+ExclusiveArch:	%{ix86} ppc sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		javadir		%{_libdir}/java
 %define		jredir		%{_libdir}/java/jre
 %define		classdir	%{_datadir}/java
 %define		netscape4dir	/usr/lib/netscape
+%if %{?_with_ra:1}%{!?_with_ra:0}
+%define		mozilladir	/usr/X11R6/lib/mozilla
+%else
 %define		mozilladir	/usr/lib/mozilla
+%endif
 
 # prevent wrong requires when building with another JRE
 %define		_noautoreqdep	libawt.so libjava.so libjvm.so libmlib_image.so libverify.so libnet.so
@@ -63,8 +73,10 @@ Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
 Summary(pl):	Blackdown Java - JRE (¶rodowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
 Requires:	XFree86-libs
+%if %{?_with_ra:0}%{!?_with_ra:1}
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
+%endif
 Provides:	jre = %{version}
 #Provides:	jar
 Provides:	java
@@ -150,13 +162,13 @@ Java plugin for Mozilla.
 Wtyczka z obs³ug± Javy dla Mozilli.
 
 %prep
-%setup -qcT -n j2sdk1.4.1
+%setup -qcT -n j2sdk%{mainversion}
 %ifarch %{ix86}
 tail +522 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
-#%ifarch ppc
-#tail +522 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
-#%endif
+%ifarch ppc
+tail +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
+%endif
 %ifarch sparc sparc64
 tail +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
@@ -174,11 +186,13 @@ install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
 #ln -sf %{jredir} $RPM_BUILD_ROOT/usr/lib/jre
 #ln -sf %{javadir}/include $RPM_BUILD_ROOT%{_includedir}/java
 
+%ifnarch ppc
 mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
 mv -f jre/lib/%{archd}/server/Xusage.txt jre/Xusage.server
-mv -f jre/lib/*.txt jre
 mv jre/lib/font.properties{,.orig}
 mv jre/lib/font.properties{.Redhat6.1,}
+%endif
+mv -f jre/lib/*.txt jre
 
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
 
@@ -201,6 +215,10 @@ install jre/plugin/%{archd}/netscape4/javaplugin.so $RPM_BUILD_ROOT%{netscape4di
 for i in javaplugin rt sunrsasign ; do
 	ln -sf %{jredir}/lib/$i.jar $RPM_BUILD_ROOT%{netscape4dir}/java/classes
 done
+%endif
+
+%ifarch ppc
+mv -f jre/bin/ppc/native_threads/* $RPM_BUILD_ROOT%{jredir}/bin
 %endif
 
 install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
@@ -263,7 +281,9 @@ fi
 %{javadir}/lib/*.idl
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
+%ifnarch ppc
 %{_mandir}/man1/idlj.1*
+%endif
 #%%{_mandir}/man1/jar.1*
 %{_mandir}/man1/jarsigner.1*
 %{_mandir}/man1/javac.1*
@@ -276,7 +296,9 @@ fi
 %{_mandir}/man1/serialver.1*
 %lang(ja) %{_mandir}/ja/man1/appletviewer.1*
 %lang(ja) %{_mandir}/ja/man1/extcheck.1*
+%ifnarch ppc
 %lang(ja) %{_mandir}/ja/man1/idlj.1*
+%endif
 ##%lang(ja) %{_mandir}/ja/man1/jar.1*
 %lang(ja) %{_mandir}/ja/man1/jarsigner.1*
 %lang(ja) %{_mandir}/ja/man1/javac.1*
@@ -290,20 +312,24 @@ fi
 
 %files jre
 %defattr(644,root,root,755)
-%doc jre/{CHANGES,COPYRIGHT,LICENSE,README,Xusage*,*.txt}
-%doc jre/Welcome.html jre/JavaPluginControlPanel.html
+%ifnarch ppc
+%doc jre/Welcome.html jre/JavaPluginControlPanel.html jre/Xusage*
+%doc jre/{CHANGES,COPYRIGHT,LICENSE,README,*.txt}
+%endif
 %attr(755,root,root) %{_bindir}/JavaPluginControlPanel
 %attr(755,root,root) %{_bindir}/java
 %attr(755,root,root) %{_bindir}/java_vm
 %attr(755,root,root) %{_bindir}/keytool
+%ifnarch ppc
 %attr(755,root,root) %{_bindir}/kinit
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/ktab
 %attr(755,root,root) %{_bindir}/orbd
 %attr(755,root,root) %{_bindir}/policytool
+%attr(755,root,root) %{_bindir}/servertool
+%endif
 %attr(755,root,root) %{_bindir}/rmid
 %attr(755,root,root) %{_bindir}/rmiregistry
-%attr(755,root,root) %{_bindir}/servertool
 %attr(755,root,root) %{_bindir}/tnameserv
 %dir %{javadir}
 %dir %{javadir}/bin
@@ -314,14 +340,16 @@ fi
 %attr(755,root,root) %{jredir}/bin/java
 %attr(755,root,root) %{jredir}/bin/java_vm
 %attr(755,root,root) %{jredir}/bin/keytool
+%ifnarch ppc
 %attr(755,root,root) %{jredir}/bin/kinit
 %attr(755,root,root) %{jredir}/bin/klist
 %attr(755,root,root) %{jredir}/bin/ktab
 %attr(755,root,root) %{jredir}/bin/orbd
+%attr(755,root,root) %{jredir}/bin/servertool
+%endif
 %attr(755,root,root) %{jredir}/bin/policytool
 %attr(755,root,root) %{jredir}/bin/rmid
 ##%attr(755,root,root) %{jredir}/bin/rmiregistry
-%attr(755,root,root) %{jredir}/bin/servertool
 %attr(755,root,root) %{jredir}/bin/tnameserv
 %dir %{jredir}/lib
 %attr(755,root,root) %{jredir}/lib/%{archd}
@@ -330,10 +358,12 @@ fi
 %{jredir}/lib/cmm
 %{jredir}/lib/ext
 %{jredir}/lib/fonts
+%ifnarch ppc
 %{jredir}/lib/im
+%{jredir}/lib/zi
+%endif
 %{jredir}/lib/images
 %{jredir}/lib/security
-%{jredir}/lib/zi
 %{jredir}/lib/*.jar
 %{jredir}/lib/*.properties
 #%%{jredir}/lib/*.cfg
@@ -345,19 +375,23 @@ fi
 %dir %{classdir}
 %{_mandir}/man1/java.1*
 %{_mandir}/man1/keytool.1*
+%ifnarch ppc
 %{_mandir}/man1/orbd.1*
 %{_mandir}/man1/policytool.1*
+%{_mandir}/man1/servertool.1*
+%endif
 %{_mandir}/man1/rmid.1*
 #%%{_mandir}/man1/rmiregistry.1*
-%{_mandir}/man1/servertool.1*
 %{_mandir}/man1/tnameserv.1*
 %lang(ja) %{_mandir}/ja/man1/java.1*
 %lang(ja) %{_mandir}/ja/man1/keytool.1*
+%ifnarch ppc
 %lang(ja) %{_mandir}/ja/man1/orbd.1*
 %lang(ja) %{_mandir}/ja/man1/policytool.1*
+%lang(ja) %{_mandir}/ja/man1/servertool.1*
+%endif
 %lang(ja) %{_mandir}/ja/man1/rmid.1*
 ##%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
-%lang(ja) %{_mandir}/ja/man1/servertool.1*
 %lang(ja) %{_mandir}/ja/man1/tnameserv.1*
 
 %files demos
