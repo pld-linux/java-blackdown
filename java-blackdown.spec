@@ -9,12 +9,12 @@ Group:		Development/Languages/Java
 Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/i386/01/j2sdk-1.4.1-01-linux-i586-gcc3.2.bin
 NoSource:	0
 %endif
-%ifarch ppc
-Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/ppc/01/j2sdk-1.4.1-01-linux-ppc.bin
-NoSource:	1
-%endif
+#%ifarch ppc
+#Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/ppc/01/j2sdk-1.4.1-01-linux-ppc-gcc3.2.bin
+#NoSource:	1
+#%endif
 %ifarch sparc sparc64
-Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc.bin
+Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc-gcc3.2.bin
 NoSource:	2
 %endif
 URL:		http://www.blackdown.org/
@@ -25,7 +25,8 @@ Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
 Obsoletes:	kaffe
-ExclusiveArch:	%{ix86} ppc sparc sparc64
+ExclusiveArch:	%{ix86} sparc sparc64
+#ExclusiveArch:	%{ix86} ppc sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		javadir		%{_libdir}/java
@@ -134,9 +135,9 @@ Wtyczka z obs³ug± Javy dla Mozilli.
 %ifarch %{ix86}
 tail +522 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
-%ifarch ppc
-tail +522 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
-%endif
+#%ifarch ppc
+#tail +522 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
+#%endif
 %ifarch sparc sparc64
 tail +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
