@@ -186,7 +186,8 @@ Summary(pl):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
 Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-firefox
-Obsoletes:	mozilla-firefox-plugin-java-sun
+Obsoletes:	mozilla-firefox-plugin-gcc2-java-sun
+Obsoletes:	mozilla-firefox-plugin-gcc3-java-sun
 
 %description -n mozilla-firefox-plugin-%{name}
 Java plugin for Mozilla Firefox.
