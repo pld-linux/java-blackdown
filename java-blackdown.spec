@@ -13,7 +13,7 @@ Release:	1
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
 %ifarch	%{ix86}
-Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/i386/01/j2sdk-1.4.1-01-linux-i586-gcc3.2.bin
+Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/i386/01/j2sdk-1.4.1-01-linux-i586-gcc2.95.bin
 # NoSource0-md5:	a0c7838233603fccb30641998195e8bc
 NoSource:	0
 %endif
@@ -74,10 +74,6 @@ Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
 Summary(pl):	Blackdown Java - JRE (¶rodowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
 Requires:	XFree86-libs
-%if %{?_with_ra:0}%{!?_with_ra:1}
-Requires:	libgcc >= 3.2.0
-Requires:	libstdc++ >= 3.2.0
-%endif
 Provides:	jre = %{version}
 #Provides:	jar
 Provides:	java
