@@ -8,7 +8,7 @@ Release:	2
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
-Release:	0.2
+Release:	1
 %endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
@@ -179,18 +179,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
 	$RPM_BUILD_ROOT%{_mandir}/{,ja/}man1
 
-
-%ifarch ppc
-mv -f jre/bin/ppc/native_threads/* jre/bin
-mv -f jre/lib/ppc/*.* jre/lib
-mv -f jre/lib/ppc/native_threads/* jre/lib
-mv -f jre/lib/ppc/classic/* jre/lib
-mv -f bin/ppc/native_threads/* bin
-mv -f lib/ppc/* lib
-rm -rf jre/bin/ppc/ jre/lib/ppc/ bin/ppc/ lib/ppc/
-%endif
-
-
 cp -rf bin demo include lib $RPM_BUILD_ROOT%{javadir}
 install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
@@ -199,6 +187,11 @@ install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
 #ln -sf %{jredir} $RPM_BUILD_ROOT/usr/lib/jre
 #ln -sf %{javadir}/include $RPM_BUILD_ROOT%{_includedir}/java
 
+%ifarch ppc
+ln -sf .java_wrapper jre/bin/java_vm
+rm -rf jre/bin/realpath
+ln -s ppc/realpath jre/bin/realpath
+%endif 
 
 %ifnarch ppc
 mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
@@ -206,6 +199,7 @@ mv -f jre/lib/%{archd}/server/Xusage.txt jre/Xusage.server
 mv jre/lib/font.properties{,.orig}
 mv jre/lib/font.properties{.Redhat6.1,}
 %endif
+
 mv -f jre/lib/*.txt jre
 
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
@@ -225,6 +219,10 @@ for i in HtmlConverter appletviewer extcheck idlj jar jarsigner java-rmi.cgi \
 	ln -sf %{javadir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/$i
 done
 
+%ifarch ppc
+ln -sf %{javadir}/bin/j2sdk-config $RPM_BUILD_ROOT%{_bindir}/j2sdk-config
+%endif 
+
 rm -f $RPM_BUILD_ROOT%{javadir}/bin/java
 ln -sf %{jredir}/bin/java $RPM_BUILD_ROOT%{javadir}/bin/java
 
@@ -234,11 +232,6 @@ install jre/plugin/%{archd}/netscape4/javaplugin.so $RPM_BUILD_ROOT%{netscape4di
 for i in javaplugin rt sunrsasign ; do
 	ln -sf %{jredir}/lib/$i.jar $RPM_BUILD_ROOT%{netscape4dir}/java/classes
 done
-%endif
-
-%ifarch ppc
-ln -s %{jredir}/lib/libhpi.so $RPM_BUILD_ROOT%{_libdir}
-ln -s %{jredir}/lib/libjvm.so $RPM_BUILD_ROOT%{_libdir}
 %endif
 
 install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
@@ -277,6 +270,9 @@ fi
 %attr(755,root,root) %{_bindir}/jdb
 %attr(755,root,root) %{_bindir}/native2ascii
 %attr(755,root,root) %{_bindir}/serialver
+%ifarch ppc
+%attr(755,root,root) %{_bindir}/j2sdk-config
+%endif
 %attr(755,root,root) %{javadir}/bin/HtmlConverter
 %attr(755,root,root) %{javadir}/bin/appletviewer
 %attr(755,root,root) %{javadir}/bin/extcheck
@@ -290,15 +286,20 @@ fi
 %attr(755,root,root) %{javadir}/bin/javap
 %attr(755,root,root) %{javadir}/bin/jdb
 %attr(755,root,root) %{javadir}/bin/native2ascii
-%attr(755,root,root) %{javadir}/bin/rmic
 %attr(755,root,root) %{javadir}/bin/serialver
+%ifarch ppc
+%attr(755,root,root) %{javadir}/bin/.java_wrapper
+%attr(755,root,root) %{javadir}/bin/awt_robot
+%attr(755,root,root) %{javadir}/bin/j2sdk-config
+%attr(755,root,root) %{javadir}/bin/%{archd}
+%endif
 %{javadir}/include
 #%%{_includedir}/jdk
 %dir %{javadir}/lib
 %{javadir}/lib/*.jar
 %{javadir}/lib/*.idl
 %ifarch ppc
-%{javadir}/lib/*.so
+%{javadir}/lib/%{archd}/*.so
 %endif
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
@@ -329,27 +330,25 @@ fi
 
 %files jre
 %defattr(644,root,root,755)
+%doc jre/JavaPluginControlPanel.html
 %ifnarch ppc
-%doc jre/Welcome.html jre/JavaPluginControlPanel.html jre/Xusage*
+%doc jre/Welcome.html jre/Xusage*
 %doc jre/{CHANGES,COPYRIGHT,LICENSE,README,*.txt}
 %endif
 %attr(755,root,root) %{_bindir}/JavaPluginControlPanel
 %attr(755,root,root) %{_bindir}/java
 %attr(755,root,root) %{_bindir}/java_vm
 %attr(755,root,root) %{_bindir}/keytool
+%attr(755,root,root) %{_bindir}/policytool
 %ifnarch ppc
 %attr(755,root,root) %{_bindir}/jkinit
 %attr(755,root,root) %{_bindir}/jklist
 %attr(755,root,root) %{_bindir}/ktab
 %attr(755,root,root) %{_bindir}/orbd
-%attr(755,root,root) %{_bindir}/policytool
 %attr(755,root,root) %{_bindir}/servertool
 %endif
 %attr(755,root,root) %{_bindir}/rmid
 %attr(755,root,root) %{_bindir}/tnameserv
-%ifarch ppc
-%{_libdir}/*.so
-%endif
 %dir %{javadir}
 %dir %{javadir}/bin
 %attr(755,root,root) %{javadir}/bin/java
@@ -369,9 +368,18 @@ fi
 %attr(755,root,root) %{jredir}/bin/policytool
 %attr(755,root,root) %{jredir}/bin/rmid
 %attr(755,root,root) %{jredir}/bin/tnameserv
+%ifarch ppc
+%attr(755,root,root) %{jredir}/bin/.java_wrapper
+%attr(755,root,root) %{jredir}/bin/realpath
+%attr(755,root,root) %{jredir}/bin/awt_robot
+%attr(755,root,root) %{jredir}/bin/j2sdk-config
+%attr(755,root,root) %{jredir}/bin/%{archd}
+%endif
 %dir %{jredir}/lib
-%ifnarch ppc
 %attr(755,root,root) %{jredir}/lib/%{archd}
+%ifarch ppc
+%{jredir}/lib/jvm.cfg
+%{jredir}/lib/tzmappings
 %endif
 %{jredir}/lib/applet
 %{jredir}/lib/audio
@@ -386,9 +394,6 @@ fi
 %dir %{jredir}/lib/security
 %{jredir}/lib/security/*.*
 %verify(not md5 size mtime) %config(noreplace) %{jredir}/lib/security/cacerts
-%ifarch ppc
-%{jredir}/lib/*.so
-%endif
 %{jredir}/lib/*.jar
 %{jredir}/lib/*.properties
 #%%{jredir}/lib/*.cfg
