@@ -32,7 +32,7 @@ NoSource:	2
 %endif
 URL:		http://www.blackdown.org/
 Provides:	jdk = %{version}
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	blackdown-java-sdk
 Obsoletes:	ibm-java
 Obsoletes:	java-sun
@@ -44,13 +44,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		javadir		%{_libdir}/java
 %define		jredir		%{_libdir}/java/jre
 %define		classdir	%{_datadir}/java
-%define		netscape4dir	/usr/lib/netscape
-%if %{?_with_ra:1}%{!?_with_ra:0}
-%define		mozilladir	/usr/X11R6/lib/mozilla
-%else
-%define		mozilladir	/usr/lib/mozilla
-%define		firefoxdir	/usr/lib/mozilla-firefox
-%endif
+%define		netscape4dir	/usr/%{_lib}/netscape
+%define		mozilladir	/usr/%{_lib}/mozilla
+%define		firefoxdir	/usr/%{_lib}/mozilla-firefox
 
 # prevent wrong requires when building with another JRE
 %define		_noautoreqdep	libawt.so libjava.so libjvm.so libmlib_image.so libverify.so libnet.so
@@ -80,10 +76,8 @@ Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
 Summary(pl):	Blackdown Java - JRE (¶rodowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
 Requires:	XFree86-libs
-%if %{?_with_ra:0}%{!?_with_ra:1}
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
-%endif
 Provides:	jre = %{version}
 #Provides:	jar
 Provides:	java
@@ -102,7 +96,7 @@ zawiera JRE (¶rodowisko uruchomieniowe Javy).
 Summary:	JDK demonstration programs
 Summary(pl):	Programy demonstracyjne do JDK
 Group:		Development/Languages/Java
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-demos
 Obsoletes:	jdk-demos
 
@@ -112,12 +106,11 @@ JDK demonstration programs.
 %description demos -l pl
 Programy demonstracyjne do JDK.
 
-%ifarch %{ix86}
 %package -n netscape4-plugin-%{name}
 Summary:	Netscape 4.x Java plugin
 Summary(pl):	Wtyczka Javy do Netscape 4.x
 Group:		Development/Languages/Java
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-jre = %{version}-%{release}
 Requires:	netscape-common >= 4.0
 Obsoletes:	blackdown-java-sdk-netscape4-plugin
 Obsoletes:	java-sun-nn4-plugin
@@ -129,7 +122,6 @@ Java plugin for Netscape 4.x.
 
 %description -n netscape4-plugin-%{name} -l pl
 Wtyczka z obs³ug± Javy dla Netscape 4.x.
-%endif
 
 %package tools
 Summary:	Shared java tools
@@ -153,7 +145,7 @@ jak rmic czy jar.
 Summary:	Mozilla Java plugin file
 Summary(pl):	Plik wtyczki Javy do Mozilli
 Group:		Development/Languages/Java
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-mozilla-plugin
 
 %description mozilla-plugin
@@ -166,8 +158,8 @@ Plik wtyczki z obs³ug± Javy dla Mozilli.
 Summary:	Mozilla Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
-Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-embedded
+Requires:	%{name}-mozilla-plugin = %{version}-%{release}
 Obsoletes:	blackdown-java-sdk-mozilla-plugin
 Obsoletes:	java-sun-moz-plugin
 Obsoletes:	jre-mozilla-plugin
@@ -186,8 +178,8 @@ Wtyczka z obs³ug± Javy dla Mozilli.
 Summary:	Mozilla Firefox Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
-Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-firefox
+Requires:	%{name}-mozilla-plugin = %{version}-%{release}
 Obsoletes:	mozilla-firefox-plugin-gcc2-java-sun
 Obsoletes:	mozilla-firefox-plugin-gcc3-java-sun
 Obsoletes:	mozilla-firefox-plugin-java-sun
