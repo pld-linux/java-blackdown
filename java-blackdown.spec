@@ -268,7 +268,6 @@ fi
 %attr(755,root,root) %{_bindir}/appletviewer
 %attr(755,root,root) %{_bindir}/extcheck
 %attr(755,root,root) %{_bindir}/idlj
-##%attr(755,root,root) %{_bindir}/jar
 %attr(755,root,root) %{_bindir}/jarsigner
 %attr(755,root,root) %{_bindir}/java-rmi.cgi
 %attr(755,root,root) %{_bindir}/javac
@@ -277,7 +276,6 @@ fi
 %attr(755,root,root) %{_bindir}/javap
 %attr(755,root,root) %{_bindir}/jdb
 %attr(755,root,root) %{_bindir}/native2ascii
-##%attr(755,root,root) %{_bindir}/rmic
 %attr(755,root,root) %{_bindir}/serialver
 %attr(755,root,root) %{javadir}/bin/HtmlConverter
 %attr(755,root,root) %{javadir}/bin/appletviewer
@@ -307,7 +305,6 @@ fi
 %ifnarch ppc
 %{_mandir}/man1/idlj.1*
 %endif
-#%%{_mandir}/man1/jar.1*
 %{_mandir}/man1/jarsigner.1*
 %{_mandir}/man1/javac.1*
 %{_mandir}/man1/javadoc.1*
@@ -315,14 +312,12 @@ fi
 %{_mandir}/man1/javap.1*
 %{_mandir}/man1/jdb.1*
 %{_mandir}/man1/native2ascii.1*
-#%%{_mandir}/man1/rmic.1*
 %{_mandir}/man1/serialver.1*
 %lang(ja) %{_mandir}/ja/man1/appletviewer.1*
 %lang(ja) %{_mandir}/ja/man1/extcheck.1*
 %ifnarch ppc
 %lang(ja) %{_mandir}/ja/man1/idlj.1*
 %endif
-##%lang(ja) %{_mandir}/ja/man1/jar.1*
 %lang(ja) %{_mandir}/ja/man1/jarsigner.1*
 %lang(ja) %{_mandir}/ja/man1/javac.1*
 %lang(ja) %{_mandir}/ja/man1/javadoc.1*
@@ -330,7 +325,6 @@ fi
 %lang(ja) %{_mandir}/ja/man1/javap.1*
 %lang(ja) %{_mandir}/ja/man1/jdb.1*
 %lang(ja) %{_mandir}/ja/man1/native2ascii.1*
-##%lang(ja) %{_mandir}/ja/man1/rmic.1*
 %lang(ja) %{_mandir}/ja/man1/serialver.1*
 
 %files jre
@@ -374,7 +368,6 @@ fi
 %endif
 %attr(755,root,root) %{jredir}/bin/policytool
 %attr(755,root,root) %{jredir}/bin/rmid
-##%attr(755,root,root) %{jredir}/bin/rmiregistry
 %attr(755,root,root) %{jredir}/bin/tnameserv
 %dir %{jredir}/lib
 %ifnarch ppc
@@ -413,7 +406,6 @@ fi
 %{_mandir}/man1/servertool.1*
 %endif
 %{_mandir}/man1/rmid.1*
-#%%{_mandir}/man1/rmiregistry.1*
 %{_mandir}/man1/tnameserv.1*
 %lang(ja) %{_mandir}/ja/man1/java.1*
 %lang(ja) %{_mandir}/ja/man1/keytool.1*
@@ -423,7 +415,6 @@ fi
 %lang(ja) %{_mandir}/ja/man1/servertool.1*
 %endif
 %lang(ja) %{_mandir}/ja/man1/rmid.1*
-##%lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
 %lang(ja) %{_mandir}/ja/man1/tnameserv.1*
 
 %files demos
@@ -453,6 +444,8 @@ fi
 %files tools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/jar
+%attr(755,root,root) %{_bindir}/rmic
+%attr(755,root,root) %{_bindir}/rmiregistry
 %attr(755,root,root) %{jredir}/bin/rmiregistry
 %attr(755,root,root) %{javadir}/bin/rmic
 %{_mandir}/man1/jar.1*
@@ -461,7 +454,6 @@ fi
 %{_mandir}/man1/rmic.1*
 %lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
 %lang(ja) %{_mandir}/ja/man1/rmic.1*
-
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
