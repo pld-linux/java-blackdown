@@ -4,7 +4,7 @@ Name:		java-blackdown
 %ifarch %{ix86} sparc sparc64
 %define	mainversion	1.4.2
 Version:	1.4.2_rc1
-Release:	1.1
+Release:	2
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
@@ -19,7 +19,7 @@ NoSource:	0
 %endif
 %ifarch	amd64
 Source0:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.2/amd64/rc1/j2sdk-1.4.2-rc1-linux-amd64.bin
-# NoSource0-md5:	a0c7838233603fccb30641998195e8bc
+# NoSource0-md5:	a6244fa37641d8478c38744c8677aef3
 NoSource:	0
 %endif
 %ifarch ppc
@@ -149,11 +149,24 @@ such as rmic or jar.
 Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji Javy(tm), takie
 jak rmic czy jar.
 
+%package mozilla-plugin
+Summary:	Mozilla Java plugin file
+Summary(pl):	Plik wtyczki Javy do Mozilli
+Group:		Development/Languages/Java
+Requires:	%{name}-jre = %{version}
+Obsoletes:	java-sun-mozilla-plugin
+
+%description mozilla-plugin
+Java plugin file for Mozilla.
+
+%description mozilla-plugin -l pl
+Plik wtyczki z obs³ug± Javy dla Mozilli.
+
 %package -n mozilla-plugin-%{name}
 Summary:	Mozilla Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-embedded
 Obsoletes:	blackdown-java-sdk-mozilla-plugin
 Obsoletes:	java-sun-moz-plugin
@@ -171,7 +184,7 @@ Wtyczka z obs³ug± Javy dla Mozilli.
 Summary:	Mozilla Firefox Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
-Requires:	%{name}-jre = %{version}
+Requires:	%{name}-mozilla-plugin = %{version}
 PreReq:		mozilla-firefox
 Obsoletes:	mozilla-firefox-plugin-java-sun
 
@@ -264,10 +277,12 @@ for i in javaplugin rt sunrsasign ; do
 done
 %endif
 
-install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{firefoxdir}/plugins}
+install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{firefoxdir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
 install jre/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
+	$RPM_BUILD_ROOT%{jredir}/plugin/%{archd}/mozilla
+ln -sf %{jredir}/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
 	$RPM_BUILD_ROOT%{mozilladir}/plugins
-install jre/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
+ln -sf %{jredir}/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
 	$RPM_BUILD_ROOT%{firefoxdir}/plugins
 
 # these binaries are in %{jredir}/bin - not needed in %{javadir}/bin?
@@ -491,10 +506,14 @@ fi
 %lang(ja) %{_mandir}/ja/man1/rmiregistry.1*
 %lang(ja) %{_mandir}/ja/man1/rmic.1*
 
+%files mozilla-plugin
+%defattr(644,root,root,755)
+%attr(755,root,root) %{jredir}/plugin/%{archd}/mozilla
+
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{mozilladir}/plugins/libjavaplugin_oji.so
+%{mozilladir}/plugins/libjavaplugin_oji.so
 
 %files -n mozilla-firefox-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{firefoxdir}/plugins/libjavaplugin_oji.so
+%{firefoxdir}/plugins/libjavaplugin_oji.so
