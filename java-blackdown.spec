@@ -178,6 +178,16 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
 	$RPM_BUILD_ROOT%{_mandir}/{,ja/}man1
 
+
+%ifarch ppc
+mv -f jre/bin/ppc/native_threads/* jre/bin
+mv -f jre/lib/ppc/native_threads/* jre/lib
+mv -f bin/ppc/native_threads/* bin
+mv -f lib/ppc/* lib
+rm -rf jre/bin/ppc/ jre/lib/ppc/ bin/ppc/ lib/ppc/
+%endif
+
+
 cp -rf bin demo include lib $RPM_BUILD_ROOT%{javadir}
 install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
@@ -185,6 +195,7 @@ install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
 # not needed now?
 #ln -sf %{jredir} $RPM_BUILD_ROOT/usr/lib/jre
 #ln -sf %{javadir}/include $RPM_BUILD_ROOT%{_includedir}/java
+
 
 %ifnarch ppc
 mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
@@ -217,9 +228,6 @@ for i in javaplugin rt sunrsasign ; do
 done
 %endif
 
-%ifarch ppc
-mv -f jre/bin/ppc/native_threads/* $RPM_BUILD_ROOT%{jredir}/bin
-%endif
 
 install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
 install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
@@ -279,6 +287,9 @@ fi
 %dir %{javadir}/lib
 %{javadir}/lib/*.jar
 %{javadir}/lib/*.idl
+%ifarch ppc
+%{javadir}/lib/*.so
+%endif
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
 %ifnarch ppc
@@ -352,7 +363,9 @@ fi
 ##%attr(755,root,root) %{jredir}/bin/rmiregistry
 %attr(755,root,root) %{jredir}/bin/tnameserv
 %dir %{jredir}/lib
+%ifnarch ppc
 %attr(755,root,root) %{jredir}/lib/%{archd}
+%endif
 %{jredir}/lib/applet
 %{jredir}/lib/audio
 %{jredir}/lib/cmm
@@ -364,6 +377,9 @@ fi
 %endif
 %{jredir}/lib/images
 %{jredir}/lib/security
+%ifarch ppc
+%{jredir}/lib/*.so
+%endif
 %{jredir}/lib/*.jar
 %{jredir}/lib/*.properties
 #%%{jredir}/lib/*.cfg
