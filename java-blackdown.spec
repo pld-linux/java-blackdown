@@ -4,11 +4,11 @@ Name:		java-blackdown
 %ifarch %{ix86} sparc sparc64
 %define	mainversion	1.4.1
 Version:	1.4.1_01
-Release:	1
+Release:	2
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
-Release:	0.1
+Release:	0.2
 %endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
@@ -210,7 +210,12 @@ mv -f jre/lib/*.txt jre
 
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
 
-for i in JavaPluginControlPanel java java_vm keytool kinit klist ktab orbd policytool \
+# conflict with heimdal
+for i in kinit klist ; do
+        ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/j$i
+done
+
+for i in JavaPluginControlPanel java java_vm keytool ktab orbd policytool \
 	rmid rmiregistry servertool tnameserv ; do
 	ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/$i
 done
@@ -339,15 +344,14 @@ fi
 %attr(755,root,root) %{_bindir}/java_vm
 %attr(755,root,root) %{_bindir}/keytool
 %ifnarch ppc
-%attr(755,root,root) %{_bindir}/kinit
-%attr(755,root,root) %{_bindir}/klist
+%attr(755,root,root) %{_bindir}/jkinit
+%attr(755,root,root) %{_bindir}/jklist
 %attr(755,root,root) %{_bindir}/ktab
 %attr(755,root,root) %{_bindir}/orbd
 %attr(755,root,root) %{_bindir}/policytool
 %attr(755,root,root) %{_bindir}/servertool
 %endif
 %attr(755,root,root) %{_bindir}/rmid
-%attr(755,root,root) %{_bindir}/rmiregistry
 %attr(755,root,root) %{_bindir}/tnameserv
 %ifarch ppc
 %{_libdir}/*.so
