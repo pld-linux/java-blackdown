@@ -248,12 +248,10 @@ for i in javaplugin rt sunrsasign ; do
 done
 %endif
 
-install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{jredir}/plugin/%{archd}/mozilla}
+install -d $RPM_BUILD_ROOT{%{mozilladir}/plugins,%{firefoxdir}/plugins}
 install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
-	$RPM_BUILD_ROOT%{jredir}/plugin/%{archd}/mozilla
-ln -sf %{jredir}/plugin/%{archd}/mozilla/javaplugin_oji.so \
 	$RPM_BUILD_ROOT%{mozilladir}/plugins
-ln -sf %{jredir}/plugin/%{archd}/mozilla/javaplugin_oji.so \
+install jre/plugin/%{archd}/mozilla/javaplugin_oji.so \
 	$RPM_BUILD_ROOT%{firefoxdir}/plugins
 
 # these binaries are in %{jredir}/bin - not needed in %{javadir}/bin?
@@ -416,8 +414,6 @@ fi
 #%%{jredir}/lib/tzmappings
 %lang(ja) %{jredir}/lib/*.properties.ja
 #%lang(zh) %{jredir}/lib/*.properties.zh
-%dir %{jredir}/plugin
-%dir %{jredir}/plugin/%{archd}
 %dir %{classdir}
 %{_mandir}/man1/java.1*
 %{_mandir}/man1/keytool.1*
@@ -478,6 +474,8 @@ fi
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
-%dir %{jredir}/plugin/%{archd}/mozilla
-%attr(755,root,root) %{jredir}/plugin/%{archd}/mozilla/javaplugin_oji.so
 %attr(755,root,root) %{mozilladir}/plugins/javaplugin_oji.so
+
+%files -n mozilla-firefox-plugin-%{name}
+%defattr(644,root,root,755)
+%attr(755,root,root) %{firefoxdir}/plugins/javaplugin_oji.so
