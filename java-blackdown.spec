@@ -1,10 +1,10 @@
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
-%ifarch %{ix86} sparc sparc64
+%ifarch %{ix86} amd64 sparc sparc64
 %define	mainversion	1.4.2
 Version:	1.4.2_rc1
-Release:	2
+Release:	3
 %else
 %define mainversion 1.3.1
 Version:	1.3.1
@@ -30,6 +30,7 @@ NoSource:	1
 Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc-gcc3.2.bin
 NoSource:	2
 %endif
+Source10:	font.properties
 URL:		http://www.blackdown.org/
 Provides:	jdk = %{version}
 Requires:	%{name}-jre = %{version}-%{release}
@@ -78,6 +79,7 @@ Group:		Development/Languages/Java
 Requires:	XFree86-libs
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
+Requires(post):	fontpostinst >= 0.1-6
 Provides:	jre = %{version}
 #Provides:	jar
 Provides:	java
@@ -202,21 +204,28 @@ tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 
-%install
-rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
-	$RPM_BUILD_ROOT%{_mandir}/{,ja/}man1
-
 %ifarch %{ix86}
 #unpack jars in 1.4.2
 packed="lib/tools jre/lib/rt jre/lib/jsse jre/lib/charsets \
-        jre/lib/ext/localedata jre/lib/plugin"
+	jre/lib/ext/localedata jre/lib/plugin"
 #jre/javaws/javaws ?
 for i in $packed ; do
-        lib/unpack $i.pack $i.jar
-        done
-
+	lib/unpack $i.pack $i.jar
+	done
 %endif
+
+%ifnarch ppc
+mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
+mv -f jre/lib/%{archd}/server/Xusage.txt jre/Xusage.server
+mv -f jre/lib/font.properties{.Redhat8.0,}
+%endif
+
+mv -f jre/lib/*.txt jre
+
+%install
+rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{jredir},%{classdir},%{_bindir},%{_includedir}} \
+	$RPM_BUILD_ROOT{%{_mandir}/{,ja/}man1,%{_fontsdir}/TTF}
 
 cp -rf bin demo include lib $RPM_BUILD_ROOT%{javadir}
 install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
@@ -232,20 +241,11 @@ rm -rf jre/bin/realpath
 ln -s ppc/realpath jre/bin/realpath
 %endif 
 
-%ifnarch ppc
-mv -f jre/lib/%{archd}/client/Xusage.txt jre/Xusage.client
-mv -f jre/lib/%{archd}/server/Xusage.txt jre/Xusage.server
-mv jre/lib/font.properties{,.orig}
-mv jre/lib/font.properties{.Redhat6.1,}
-%endif
-
-mv -f jre/lib/*.txt jre
-
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
 
 # conflict with heimdal
 for i in kinit klist ; do
-        ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/j$i
+	ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/j$i
 done
 
 for i in ControlPanel java java_vm keytool ktab orbd policytool \
@@ -254,7 +254,7 @@ for i in ControlPanel java java_vm keytool ktab orbd policytool \
 done
 
 for i in HtmlConverter appletviewer extcheck idlj jar jarsigner java-rmi.cgi \
-         javac javadoc javah javap jdb native2ascii rmic serialver ; do
+	javac javadoc javah javap jdb native2ascii rmic serialver ; do
 	ln -sf %{javadir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/$i
 done
 
@@ -268,7 +268,7 @@ ln -sf %{jredir}/bin/java $RPM_BUILD_ROOT%{javadir}/bin/java
 %ifarch %{ix86}
 install -d $RPM_BUILD_ROOT%{netscape4dir}/{plugins,java/classes}
 install jre/plugin/%{archd}/netscape4/libjavaplugin.so $RPM_BUILD_ROOT%{netscape4dir}/plugins
-for i in javaplugin rt sunrsasign ; do
+for i in plugin rt sunrsasign ; do
 	ln -sf %{jredir}/lib/$i.jar $RPM_BUILD_ROOT%{netscape4dir}/java/classes
 done
 %endif
@@ -284,6 +284,15 @@ ln -sf %{jredir}/plugin/%{archd}/mozilla/libjavaplugin_oji.so \
 # these binaries are in %{jredir}/bin - not needed in %{javadir}/bin?
 rm -f $RPM_BUILD_ROOT%{javadir}/bin/{ControlPanel,keytool,kinit,klist,ktab,orbd,policytool,rmid,rmiregistry,servertool,tnameserv}
 
+mv -f $RPM_BUILD_ROOT%{jredir}/lib/fonts/*.ttf $RPM_BUILD_ROOT%{_fontsdir}/TTF
+rm -rf $RPM_BUILD_ROOT%{jredir}/lib/fonts
+ln -sf %{_fontsdir}/TTF $RPM_BUILD_ROOT%{jredir}/lib/fonts
+install %{SOURCE10} $RPM_BUILD_ROOT%{jredir}/lib
+
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+install jre/plugin/desktop/*.png $RPM_BUILD_ROOT%{_pixmapsdir}
+perl -pe 's|=.*/|=|' < jre/plugin/desktop/sun_java.desktop > $RPM_BUILD_ROOT%{_desktopdir}/sun_java.desktop
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -294,6 +303,12 @@ fi
 if [ -L %{javadir} ]; then
 	rm -f %{javadir}
 fi
+
+%post jre
+fontpostinst TTF
+
+%postun jre
+fontpostinst TTF
 
 %files
 %defattr(644,root,root,755)
@@ -428,7 +443,10 @@ fi
 %{jredir}/lib/applet
 %{jredir}/lib/audio
 %{jredir}/lib/cmm
-%{jredir}/lib/ext
+%dir %{jredir}/lib/ext
+%{jredir}/lib/ext/*.jar
+#%%{jredir}/lib/ext/*.pack
+%{_fontsdir}/TTF/*
 %{jredir}/lib/fonts
 %ifnarch ppc
 %{jredir}/lib/im
@@ -463,6 +481,8 @@ fi
 %endif
 %lang(ja) %{_mandir}/ja/man1/rmid.1*
 %lang(ja) %{_mandir}/ja/man1/tnameserv.1*
+%{_desktopdir}/*
+%{_pixmapsdir}/*
 
 %files demos
 %defattr(644,root,root,755)
@@ -504,6 +524,8 @@ fi
 
 %files mozilla-plugin
 %defattr(644,root,root,755)
+%dir %{jredir}/plugin
+%dir %{jredir}/plugin/%{archd}
 %attr(755,root,root) %{jredir}/plugin/%{archd}/mozilla
 
 %files -n mozilla-plugin-%{name}
