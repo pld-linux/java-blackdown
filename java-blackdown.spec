@@ -257,14 +257,14 @@ fi
 %attr(755,root,root) %{javadir}/bin/rmic
 %attr(755,root,root) %{javadir}/bin/serialver
 %{javadir}/include
-#%{_includedir}/jdk
+#%%{_includedir}/jdk
 %dir %{javadir}/lib
 %{javadir}/lib/*.jar
 %{javadir}/lib/*.idl
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
 %{_mandir}/man1/idlj.1*
-##%{_mandir}/man1/jar.1*
+#%%{_mandir}/man1/jar.1*
 %{_mandir}/man1/jarsigner.1*
 %{_mandir}/man1/javac.1*
 %{_mandir}/man1/javadoc.1*
@@ -272,7 +272,7 @@ fi
 %{_mandir}/man1/javap.1*
 %{_mandir}/man1/jdb.1*
 %{_mandir}/man1/native2ascii.1*
-##%{_mandir}/man1/rmic.1*
+#%%{_mandir}/man1/rmic.1*
 %{_mandir}/man1/serialver.1*
 %lang(ja) %{_mandir}/ja/man1/appletviewer.1*
 %lang(ja) %{_mandir}/ja/man1/extcheck.1*
@@ -336,8 +336,8 @@ fi
 %{jredir}/lib/zi
 %{jredir}/lib/*.jar
 %{jredir}/lib/*.properties
-#%{jredir}/lib/*.cfg
-#%{jredir}/lib/tzmappings
+#%%{jredir}/lib/*.cfg
+#%%{jredir}/lib/tzmappings
 %lang(ja) %{jredir}/lib/*.properties.ja
 #%lang(zh) %{jredir}/lib/*.properties.zh
 %dir %{jredir}/plugin
@@ -348,7 +348,7 @@ fi
 %{_mandir}/man1/orbd.1*
 %{_mandir}/man1/policytool.1*
 %{_mandir}/man1/rmid.1*
-##%{_mandir}/man1/rmiregistry.1*
+#%%{_mandir}/man1/rmiregistry.1*
 %{_mandir}/man1/servertool.1*
 %{_mandir}/man1/tnameserv.1*
 %lang(ja) %{_mandir}/ja/man1/java.1*
