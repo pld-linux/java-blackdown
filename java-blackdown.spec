@@ -300,6 +300,9 @@ rm -rf $RPM_BUILD_ROOT
 if [ -L %{jredir} ]; then
 	rm -f %{jredir}
 fi
+if [ -L %{jredir}/lib/fonts ]; then
+	rm -f %{jredir}/lib/fonts
+fi
 if [ -L %{javadir} ]; then
 	rm -f %{javadir}
 fi
