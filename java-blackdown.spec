@@ -1,7 +1,7 @@
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
-%ifarch %{ix86} amd64
+%ifarch %{ix86} %{x8664}
 %define	mainversion	1.4.2
 Version:	1.4.2_01
 Release:	1
@@ -23,7 +23,7 @@ Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/01/j2sdk-1.4.2-01-linux-i586.
 # NoSource0-md5:	dbb87efd16b8d25cdd3fe6a8782a8e75
 NoSource:	0
 %endif
-%ifarch	amd64
+%ifarch	%{x8664}
 Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/01/j2sdk-1.4.2-01-linux-amd64.bin
 # NoSource0-md5:	00cb18fe9ea91c536360c70a219b1867
 NoSource:	0
@@ -38,16 +38,17 @@ NoSource:	2
 %endif
 Source10:	font.properties
 URL:		http://www.blackdown.org/
-Provides:	jdk = %{version}
-Provides:	jsse
+BuildRequires:	rpmbuild(macros) >= 1.213
 Requires:	%{name}-jre = %{version}-%{release}
 Requires:	java-shared
+Provides:	jdk = %{version}
+Provides:	jsse
 Obsoletes:	blackdown-java-sdk
 Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
 Obsoletes:	kaffe
-ExclusiveArch:	%{ix86} amd64 ppc sparc sparcv9
+ExclusiveArch:	%{ix86} %{x8664} ppc sparc sparcv9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		javadir		%{_libdir}/java
@@ -65,7 +66,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %ifarch %{ix86}
 %define		archd	i386
 %endif
-%ifarch amd64
+%ifarch %{x8664}
 %define         archd   amd64
 %endif
 %ifarch ppc
@@ -220,7 +221,7 @@ Wtyczka z obs³ug± Javy dla Mozilli Firefox.
 
 %prep
 %setup -qcT -n j2sdk%{mainversion}
-%ifarch %{ix86} amd64
+%ifarch %{ix86} %{x8664}
 tail -n +564 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch ppc
@@ -230,7 +231,7 @@ tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 
-%ifarch %{ix86} && amd64
+%ifarch %{ix86} %{x8664}
 #unpack jars in 1.4.2
 packed="lib/tools jre/lib/rt jre/lib/jsse jre/lib/charsets \
 	jre/lib/ext/localedata jre/lib/plugin"
