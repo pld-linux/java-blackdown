@@ -18,16 +18,7 @@ Release:	4
 %endif
 License:	restricted, non-distributable
 Group:		Development/Languages/Java
-%ifarch	%{ix86}
-Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/01/j2sdk-1.4.2-01-linux-i586.bin
-# NoSource0-md5:	dbb87efd16b8d25cdd3fe6a8782a8e75
-NoSource:	0
-%endif
-%ifarch	%{x8664}
-Source0:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/01/j2sdk-1.4.2-01-linux-amd64.bin
-# NoSource0-md5:	00cb18fe9ea91c536360c70a219b1867
-NoSource:	0
-%endif
+Source0:	font.properties
 %ifarch ppc
 Source1:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-%{version}/ppc/FCS-02b/j2sdk-%{version}-02b-FCS-linux-ppc.bin
 NoSource:	1
@@ -36,7 +27,16 @@ NoSource:	1
 Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1/sparc/01/j2sdk-1.4.1-01-linux-sparc-gcc3.2.bin
 NoSource:	2
 %endif
-Source10:	font.properties
+%ifarch	%{ix86}
+Source3:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/01/j2sdk-1.4.2-01-linux-i586.bin
+# NoSource3-md5:	dbb87efd16b8d25cdd3fe6a8782a8e75
+NoSource:	3
+%endif
+%ifarch	%{x8664}
+Source4:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/01/j2sdk-1.4.2-01-linux-amd64.bin
+# NoSource4-md5:	00cb18fe9ea91c536360c70a219b1867
+NoSource:	4
+%endif
 URL:		http://www.blackdown.org/
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires:	%{name}-jre = %{version}-%{release}
@@ -221,14 +221,17 @@ Wtyczka z obs³ug± Javy dla Mozilli Firefox.
 
 %prep
 %setup -qcT -n j2sdk%{mainversion}
-%ifarch %{ix86} %{x8664}
-tail -n +564 %{SOURCE0} | bzip2 -dc - | tar xf - -C ..
-%endif
 %ifarch ppc
 tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch sparc sparcv9
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
+%endif
+%ifarch %{ix86}
+tail -n +564 %{SOURCE3} | bzip2 -dc - | tar xf - -C ..
+%endif
+%ifarch %{x8664}
+tail -n +564 %{SOURCE4} | bzip2 -dc - | tar xf - -C ..
 %endif
 
 %ifarch %{ix86} %{x8664}
@@ -315,7 +318,7 @@ rm -f $RPM_BUILD_ROOT%{javadir}/bin/{ControlPanel,keytool,kinit,klist,ktab,orbd,
 mv -f $RPM_BUILD_ROOT%{jredir}/lib/fonts/*.ttf $RPM_BUILD_ROOT%{_fontsdir}/TTF
 rm -rf $RPM_BUILD_ROOT%{jredir}/lib/fonts
 ln -sf %{_fontsdir}/TTF $RPM_BUILD_ROOT%{jredir}/lib/fonts
-install %{SOURCE10} $RPM_BUILD_ROOT%{jredir}/lib
+install %{SOURCE0} $RPM_BUILD_ROOT%{jredir}/lib
 
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 install jre/plugin/desktop/*.png $RPM_BUILD_ROOT%{_pixmapsdir}
