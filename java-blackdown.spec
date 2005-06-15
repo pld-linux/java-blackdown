@@ -3,7 +3,7 @@ Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
 %ifarch %{ix86} %{x8664}
 %define	mainversion	1.4.2
-Version:	1.4.2_01
+Version:	1.4.2_02
 Release:	1
 %endif
 %ifarch sparc sparcv9
@@ -28,13 +28,13 @@ Source2:	ftp://metalab.unc.edu/pub/linux/devel/lang/java/blackdown.org/JDK-1.4.1
 NoSource:	2
 %endif
 %ifarch	%{ix86}
-Source3:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/01/j2sdk-1.4.2-01-linux-i586.bin
-# NoSource3-md5:	dbb87efd16b8d25cdd3fe6a8782a8e75
+Source3:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/02/j2sdk-1.4.2-02-linux-i586.bin
+# NoSource3-md5:	a65733528562794b7838407084cabd9a	
 NoSource:	3
 %endif
 %ifarch	%{x8664}
-Source4:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/01/j2sdk-1.4.2-01-linux-amd64.bin
-# NoSource4-md5:	00cb18fe9ea91c536360c70a219b1867
+Source4:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/amd64/02/j2sdk-1.4.2-02-linux-amd64.bin
+# NoSource4-md5:	71a00fbf52e39987790c3216a219c281
 NoSource:	4
 %endif
 URL:		http://www.blackdown.org/
@@ -47,6 +47,7 @@ Obsoletes:	blackdown-java-sdk
 Obsoletes:	ibm-java
 Obsoletes:	java-sun
 Obsoletes:	jdk
+Obsoletes:	jsse
 Obsoletes:	kaffe
 ExclusiveArch:	%{ix86} %{x8664} ppc sparc sparcv9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -228,10 +229,10 @@ tail -n +400 %{SOURCE1} | bzip2 -dc - | tar xf - -C ..
 tail -n +522 %{SOURCE2} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch %{ix86}
-tail -n +564 %{SOURCE3} | bzip2 -dc - | tar xf - -C ..
+tail -n +592 %{SOURCE3} | bzip2 -dc - | tar xf - -C ..
 %endif
 %ifarch %{x8664}
-tail -n +564 %{SOURCE4} | bzip2 -dc - | tar xf - -C ..
+tail -n +592 %{SOURCE4} | bzip2 -dc - | tar xf - -C ..
 %endif
 
 %ifarch %{ix86} %{x8664}
