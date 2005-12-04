@@ -29,7 +29,7 @@ NoSource:	2
 %endif
 %ifarch	%{ix86}
 Source3:	ftp://ftp.tux.org/pub/java/JDK-1.4.2/i386/02/j2sdk-1.4.2-02-linux-i586.bin
-# NoSource3-md5:	a65733528562794b7838407084cabd9a	
+# NoSource3-md5:	a65733528562794b7838407084cabd9a
 NoSource:	3
 %endif
 %ifarch	%{x8664}
@@ -89,11 +89,11 @@ zawiera JDK (¶rodowisko programistyczne Javy).
 Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
 Summary(pl):	Blackdown Java - JRE (¶rodowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
+Requires(post):	fontpostinst >= 0.1-6
 Requires:	XFree86-libs
+Requires:	java-jre-tools
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
-Requires:	java-jre-tools
-Requires(post):	fontpostinst >= 0.1-6
 Provides:	jre = %{version}
 Provides:	java
 Obsoletes:	jre
@@ -149,12 +149,12 @@ Obsoletes:	jar
 Obsoletes:	fastjar
 
 %description tools
-This package contains tools that are common for every Java(tm) implementation,
-such as rmic or jar.
+This package contains tools that are common for every Java(tm)
+implementation, such as rmic or jar.
 
 %description tools -l pl
-Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji Javy(tm), takie
-jak rmic czy jar.
+Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji
+Javy(tm), takie jak rmic czy jar.
 
 %package jre-tools
 Summary:	Shared Java tools
@@ -188,7 +188,7 @@ Plik wtyczki z obs³ug± Javy dla Mozilli.
 Summary:	Mozilla Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
-PreReq:		mozilla-embedded
+Requires:	mozilla-embedded
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
 Obsoletes:	blackdown-java-sdk-mozilla-plugin
 Obsoletes:	java-sun-moz-plugin
@@ -208,7 +208,7 @@ Wtyczka z obs³ug± Javy dla Mozilli.
 Summary:	Mozilla Firefox Java plugin
 Summary(pl):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
-PreReq:		mozilla-firefox
+Requires:	mozilla-firefox
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
 Obsoletes:	mozilla-firefox-plugin-gcc2-java-sun
 Obsoletes:	mozilla-firefox-plugin-gcc3-java-sun
@@ -270,7 +270,7 @@ install man/ja/man1/* $RPM_BUILD_ROOT%{_mandir}/ja/man1
 ln -sf .java_wrapper jre/bin/java_vm
 rm -rf jre/bin/realpath
 ln -s ppc/realpath jre/bin/realpath
-%endif 
+%endif
 
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
 
@@ -292,7 +292,7 @@ done
 
 %ifarch ppc
 ln -sf %{javadir}/bin/j2sdk-config $RPM_BUILD_ROOT%{_bindir}/j2sdk-config
-%endif 
+%endif
 
 rm -f $RPM_BUILD_ROOT%{javadir}/bin/java
 ln -sf %{jredir}/bin/java $RPM_BUILD_ROOT%{javadir}/bin/java
@@ -392,7 +392,7 @@ fontpostinst TTF
 #%%{javadir}/lib/*.pack
 #%%{javadir}/lib/unpack
 %ifarch ppc
-%{javadir}/lib/%{archd}/*.so
+%attr(755,root,root) %{javadir}/lib/%{archd}/*.so
 %endif
 %{_mandir}/man1/appletviewer.1*
 %{_mandir}/man1/extcheck.1*
@@ -425,7 +425,7 @@ fontpostinst TTF
 %defattr(644,root,root,755)
 %doc jre/ControlPanel.html
 %ifnarch ppc
-#%doc jre/Welcome.html 
+#%doc jre/Welcome.html
 %doc jre/Xusage*
 %doc jre/{CHANGES,COPYRIGHT,LICENSE,README,*.txt}
 %endif
@@ -491,7 +491,7 @@ fontpostinst TTF
 %{jredir}/lib/images
 %dir %{jredir}/lib/security
 %{jredir}/lib/security/*.*
-%verify(not md5 size mtime) %config(noreplace) %{jredir}/lib/security/cacerts
+%verify(not md5 mtime size) %config(noreplace) %{jredir}/lib/security/cacerts
 %{jredir}/lib/*.jar
 %{jredir}/lib/*.properties
 #%%{jredir}/lib/*.cfg
@@ -569,8 +569,8 @@ fontpostinst TTF
 
 %files -n mozilla-plugin-%{name}
 %defattr(644,root,root,755)
-%{mozilladir}/plugins/libjavaplugin_oji.so
+%attr(755,root,root) %{mozilladir}/plugins/libjavaplugin_oji.so
 
 %files -n mozilla-firefox-plugin-%{name}
 %defattr(644,root,root,755)
-%{firefoxdir}/plugins/libjavaplugin_oji.so
+%attr(755,root,root) %{firefoxdir}/plugins/libjavaplugin_oji.so
