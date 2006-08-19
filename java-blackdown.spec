@@ -1,3 +1,10 @@
+# TODO:
+# 1.4.2_03 for x86 and x86_64
+# there are also available:
+# 1.2.2 for s390
+# 1.1.8 for arm
+# 1.1.7 for alpha
+# 1.1.5 for m68k(?)
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
