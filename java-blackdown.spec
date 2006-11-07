@@ -524,7 +524,7 @@ fontpostinst TTF
 %endif
 %lang(ja) %{_mandir}/ja/man1/rmid.1*
 %lang(ja) %{_mandir}/ja/man1/tnameserv.1*
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
 
 %files demos
