@@ -6,7 +6,7 @@
 # 1.1.7 for alpha
 # 1.1.5 for m68k(?)
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
-Summary(pl):	Blackdown Java - JDK (¶rodowisko programistyczne Javy) dla Linuksa
+Summary(pl.UTF-8):   Blackdown Java - JDK (Å›rodowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
 %ifarch %{ix86} %{x8664}
 %define	mainversion	1.4.2
@@ -88,13 +88,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Blackdown Java implementation (based on Sun Java). This package
 contains JDK (Java Development Kit).
 
-%description -l pl
-Implementacja Javy z Blackdown (bazuj±ca na wersji Suna). Ten pakiet
-zawiera JDK (¶rodowisko programistyczne Javy).
+%description -l pl.UTF-8
+Implementacja Javy z Blackdown (bazujÄ…ca na wersji Suna). Ten pakiet
+zawiera JDK (Å›rodowisko programistyczne Javy).
 
 %package jre
 Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
-Summary(pl):	Blackdown Java - JRE (¶rodowisko uruchomieniowe Javy) dla Linuksa
+Summary(pl.UTF-8):   Blackdown Java - JRE (Å›rodowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
 Requires(post):	fontpostinst >= 0.1-6
 Requires:	XFree86-libs
@@ -110,13 +110,13 @@ Obsoletes:	java-sun-jre
 Blackdown Java implementation (based on Sun Java). This package
 contains JRE (Java Runtime Environment).
 
-%description jre -l pl
-Implementacja Javy z Blackdown (bazuj±ca na wersji Suna). Ten pakiet
-zawiera JRE (¶rodowisko uruchomieniowe Javy).
+%description jre -l pl.UTF-8
+Implementacja Javy z Blackdown (bazujÄ…ca na wersji Suna). Ten pakiet
+zawiera JRE (Å›rodowisko uruchomieniowe Javy).
 
 %package demos
 Summary:	JDK demonstration programs
-Summary(pl):	Programy demonstracyjne do JDK
+Summary(pl.UTF-8):   Programy demonstracyjne do JDK
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-demos
@@ -125,12 +125,12 @@ Obsoletes:	jdk-demos
 %description demos
 JDK demonstration programs.
 
-%description demos -l pl
+%description demos -l pl.UTF-8
 Programy demonstracyjne do JDK.
 
 %package -n netscape4-plugin-%{name}
 Summary:	Netscape 4.x Java plugin
-Summary(pl):	Wtyczka Javy do Netscape 4.x
+Summary(pl.UTF-8):   Wtyczka Javy do Netscape 4.x
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Requires:	netscape-common >= 4.0
@@ -142,12 +142,12 @@ Obsoletes:	netscape4-plugin-java-sun
 %description -n netscape4-plugin-%{name}
 Java plugin for Netscape 4.x.
 
-%description -n netscape4-plugin-%{name} -l pl
-Wtyczka z obs³ug± Javy dla Netscape 4.x.
+%description -n netscape4-plugin-%{name} -l pl.UTF-8
+Wtyczka z obsÅ‚ugÄ… Javy dla Netscape 4.x.
 
 %package tools
 Summary:	Shared java tools
-Summary(pl):	Wspó³dzielone narzêdzia javy
+Summary(pl.UTF-8):   WspÃ³Å‚dzielone narzÄ™dzia javy
 Group:		Development/Languages/Java
 Provides:	jar
 Provides:	java-shared
@@ -159,13 +159,13 @@ Obsoletes:	fastjar
 This package contains tools that are common for every Java(tm)
 implementation, such as rmic or jar.
 
-%description tools -l pl
-Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji
+%description tools -l pl.UTF-8
+Pakiet ten zawiera narzÄ™dzia wspÃ³lne dla kaÅ¼dej implementacji
 Javy(tm), takie jak rmic czy jar.
 
 %package jre-tools
 Summary:	Shared Java tools
-Summary(pl):	Wspó³dzielone narzêdzia Javy
+Summary(pl.UTF-8):   WspÃ³Å‚dzielone narzÄ™dzia Javy
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Provides:	java-jre-tools
@@ -174,13 +174,13 @@ Provides:	java-jre-tools
 This package contains tools that are common for every Java(TM)
 implementation, such as rmic or jar.
 
-%description jre-tools -l pl
-Pakiet ten zawiera narzêdzia wspólne dla ka¿dej implementacji
+%description jre-tools -l pl.UTF-8
+Pakiet ten zawiera narzÄ™dzia wspÃ³lne dla kaÅ¼dej implementacji
 Javy(TM), takie jak rmic czy jar.
 
 %package mozilla-plugin
 Summary:	Mozilla Java plugin file
-Summary(pl):	Plik wtyczki Javy do Mozilli
+Summary(pl.UTF-8):   Plik wtyczki Javy do Mozilli
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-mozilla-plugin
@@ -188,12 +188,12 @@ Obsoletes:	java-sun-mozilla-plugin
 %description mozilla-plugin
 Java plugin file for Mozilla.
 
-%description mozilla-plugin -l pl
-Plik wtyczki z obs³ug± Javy dla Mozilli.
+%description mozilla-plugin -l pl.UTF-8
+Plik wtyczki z obsÅ‚ugÄ… Javy dla Mozilli.
 
 %package -n mozilla-plugin-%{name}
 Summary:	Mozilla Java plugin
-Summary(pl):	Wtyczka Javy do Mozilli
+Summary(pl.UTF-8):   Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
 Requires:	mozilla-embedded
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
@@ -208,12 +208,12 @@ Obsoletes:	mozilla-plugin-java-sun
 %description -n mozilla-plugin-%{name}
 Java plugin for Mozilla.
 
-%description -n mozilla-plugin-%{name} -l pl
-Wtyczka z obs³ug± Javy dla Mozilli.
+%description -n mozilla-plugin-%{name} -l pl.UTF-8
+Wtyczka z obsÅ‚ugÄ… Javy dla Mozilli.
 
 %package -n mozilla-firefox-plugin-%{name}
 Summary:	Mozilla Firefox Java plugin
-Summary(pl):	Wtyczka Javy do Mozilli Firefox
+Summary(pl.UTF-8):   Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
 Requires:	mozilla-firefox
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
@@ -224,8 +224,8 @@ Obsoletes:	mozilla-firefox-plugin-java-sun
 %description -n mozilla-firefox-plugin-%{name}
 Java plugin for Mozilla Firefox.
 
-%description -n mozilla-firefox-plugin-%{name} -l pl
-Wtyczka z obs³ug± Javy dla Mozilli Firefox.
+%description -n mozilla-firefox-plugin-%{name} -l pl.UTF-8
+Wtyczka z obsÅ‚ugÄ… Javy dla Mozilli Firefox.
 
 %prep
 %setup -qcT -n j2sdk%{mainversion}
