@@ -6,7 +6,7 @@
 # 1.1.7 for alpha
 # 1.1.5 for m68k(?)
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
-Summary(pl.UTF-8):   Blackdown Java - JDK (środowisko programistyczne Javy) dla Linuksa
+Summary(pl.UTF-8):	Blackdown Java - JDK (środowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
 %ifarch %{ix86} %{x8664}
 %define	mainversion	1.4.2
@@ -94,7 +94,7 @@ zawiera JDK (środowisko programistyczne Javy).
 
 %package jre
 Summary:	Blackdown Java - JRE (Java Runtime Environment) for Linux
-Summary(pl.UTF-8):   Blackdown Java - JRE (środowisko uruchomieniowe Javy) dla Linuksa
+Summary(pl.UTF-8):	Blackdown Java - JRE (środowisko uruchomieniowe Javy) dla Linuksa
 Group:		Development/Languages/Java
 Requires(post):	fontpostinst >= 0.1-6
 Requires:	XFree86-libs
@@ -116,7 +116,7 @@ zawiera JRE (środowisko uruchomieniowe Javy).
 
 %package demos
 Summary:	JDK demonstration programs
-Summary(pl.UTF-8):   Programy demonstracyjne do JDK
+Summary(pl.UTF-8):	Programy demonstracyjne do JDK
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-demos
@@ -130,7 +130,7 @@ Programy demonstracyjne do JDK.
 
 %package -n netscape4-plugin-%{name}
 Summary:	Netscape 4.x Java plugin
-Summary(pl.UTF-8):   Wtyczka Javy do Netscape 4.x
+Summary(pl.UTF-8):	Wtyczka Javy do Netscape 4.x
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Requires:	netscape-common >= 4.0
@@ -147,7 +147,7 @@ Wtyczka z obsługą Javy dla Netscape 4.x.
 
 %package tools
 Summary:	Shared java tools
-Summary(pl.UTF-8):   Współdzielone narzędzia javy
+Summary(pl.UTF-8):	Współdzielone narzędzia javy
 Group:		Development/Languages/Java
 Provides:	jar
 Provides:	java-shared
@@ -165,7 +165,7 @@ Javy(tm), takie jak rmic czy jar.
 
 %package jre-tools
 Summary:	Shared Java tools
-Summary(pl.UTF-8):   Współdzielone narzędzia Javy
+Summary(pl.UTF-8):	Współdzielone narzędzia Javy
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Provides:	java-jre-tools
@@ -180,7 +180,7 @@ Javy(TM), takie jak rmic czy jar.
 
 %package mozilla-plugin
 Summary:	Mozilla Java plugin file
-Summary(pl.UTF-8):   Plik wtyczki Javy do Mozilli
+Summary(pl.UTF-8):	Plik wtyczki Javy do Mozilli
 Group:		Development/Languages/Java
 Requires:	%{name}-jre = %{version}-%{release}
 Obsoletes:	java-sun-mozilla-plugin
@@ -193,7 +193,7 @@ Plik wtyczki z obsługą Javy dla Mozilli.
 
 %package -n mozilla-plugin-%{name}
 Summary:	Mozilla Java plugin
-Summary(pl.UTF-8):   Wtyczka Javy do Mozilli
+Summary(pl.UTF-8):	Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
 Requires:	mozilla-embedded
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
@@ -213,7 +213,7 @@ Wtyczka z obsługą Javy dla Mozilli.
 
 %package -n mozilla-firefox-plugin-%{name}
 Summary:	Mozilla Firefox Java plugin
-Summary(pl.UTF-8):   Wtyczka Javy do Mozilli Firefox
+Summary(pl.UTF-8):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
 Requires:	mozilla-firefox
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
