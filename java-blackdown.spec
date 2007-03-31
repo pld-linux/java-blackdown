@@ -281,7 +281,7 @@ ln -s ppc/realpath jre/bin/realpath
 
 cp -rf jre/{bin,lib} $RPM_BUILD_ROOT%{jredir}
 
-# conflict with heimdal
+# conflict with heimdal/krb5
 for i in kinit klist ; do
 	ln -sf %{jredir}/bin/$i $RPM_BUILD_ROOT%{_bindir}/j$i
 done
