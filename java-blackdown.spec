@@ -1,10 +1,11 @@
 # TODO:
-# 1.4.2_03 for x86 and x86_64
-# there are also available:
-# 1.2.2 for s390
-# 1.1.8 for arm
-# 1.1.7 for alpha
-# 1.1.5 for m68k(?)
+#   - unify with other jdk specs
+#   - 1.4.2_03 for x86 and x86_64
+#     there are also available:
+#     1.2.2 for s390
+#     1.1.8 for arm
+#     1.1.7 for alpha
+#     1.1.5 for m68k(?)
 Summary:	Blackdown Java - JDK (Java Development Kit) for Linux
 Summary(pl.UTF-8):	Blackdown Java - JDK (środowisko programistyczne Javy) dla Linuksa
 Name:		java-blackdown
@@ -101,10 +102,10 @@ Requires:	XFree86-libs
 Requires:	java-jre-tools
 Requires:	libgcc >= 3.2.0
 Requires:	libstdc++ >= 3.2.0
-Provides:	jre = %{version}
 Provides:	java
-Obsoletes:	jre
+Provides:	jre = %{version}
 Obsoletes:	java-sun-jre
+Obsoletes:	jre
 
 %description jre
 Blackdown Java implementation (based on Sun Java). This package
@@ -151,9 +152,9 @@ Summary(pl.UTF-8):	Współdzielone narzędzia javy
 Group:		Development/Languages/Java
 Provides:	jar
 Provides:	java-shared
-Obsoletes:	java-shared
-Obsoletes:	jar
 Obsoletes:	fastjar
+Obsoletes:	jar
+Obsoletes:	java-shared
 
 %description tools
 This package contains tools that are common for every Java(tm)
@@ -195,8 +196,8 @@ Plik wtyczki z obsługą Javy dla Mozilli.
 Summary:	Mozilla Java plugin
 Summary(pl.UTF-8):	Wtyczka Javy do Mozilli
 Group:		Development/Languages/Java
-Requires:	mozilla-embedded
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
+Requires:	mozilla-embedded
 Obsoletes:	blackdown-java-sdk-mozilla-plugin
 Obsoletes:	java-sun-moz-plugin
 Obsoletes:	jre-mozilla-plugin
@@ -215,8 +216,8 @@ Wtyczka z obsługą Javy dla Mozilli.
 Summary:	Mozilla Firefox Java plugin
 Summary(pl.UTF-8):	Wtyczka Javy do Mozilli Firefox
 Group:		Development/Languages/Java
-Requires:	mozilla-firefox
 Requires:	%{name}-mozilla-plugin = %{version}-%{release}
+Requires:	mozilla-firefox
 Obsoletes:	mozilla-firefox-plugin-gcc2-java-sun
 Obsoletes:	mozilla-firefox-plugin-gcc3-java-sun
 Obsoletes:	mozilla-firefox-plugin-java-sun
